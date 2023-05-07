@@ -30,3 +30,43 @@ class Ork extends Enemy {
 }
 
 class Troll extends Enemy {}
+
+// Паттерн Builder
+
+const arr = [1, 2, 3];
+arr.map((a) => a * 2).filter((b) => b > 3);
+
+// Паттерн билдер
+class Wallet {
+	balance = 0;
+
+	addSum(sum) {
+		this.balance += sum;
+		return this;
+	}
+	remove(sum) {
+		this.balance -= sum;
+		return this;
+	}
+}
+const wallf = new Wallet(100);
+wallf.addSum(90).remove(10);
+console.log(wallf.balance);
+
+class House {
+	house = {};
+
+	addFloor() {
+		this.house.floor = "Floor";
+		return this;
+	}
+	addRoof() {
+		this.house.roof = "Roof";
+		return this;
+	}
+	execute() {
+		return this.house;
+	}
+}
+const resBuilder = new House().addFloor().addRoof();
+console.log(resBuilder);
