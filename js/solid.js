@@ -53,11 +53,71 @@ class Inventary {
 }
 
 ///Принцип Барбары Лисков
+///Если мы сделалили частный класс от общего то его можно без болезнено зпменять общий класс на него
 
 class User {
-	role = "user";
+	#role = "user";
 
 	getRole() {
-		return this.role;
+		return this.#role;
+	}
+}
+
+class Admin extends User {
+	#role = ["user", "admin"];
+	getRole() {
+		return this.#role.join(",");
+	}
+}
+
+function logRole(user) {
+	console.log("Role" + user.getRole().toUpperCase());
+}
+
+logRole(new User());
+logRole(new Admin());
+
+///Принцип разделения интерфейса
+
+class Weapon {
+	cost;
+	dealDamage() {}
+}
+
+class Rifele extends Weapon {
+	strike() {
+		return this.dealDamage();
+	}
+}
+class Sword extends Weapon {
+	shot() {
+		return this.dealDamage();
+	}
+}
+
+///Принцып инверсии зависимостей - должны зависеть от абстракций а не от каких либо реализаций
+///Высокоуровневые модули не должны зависеть от низкоуровненвых модулей
+
+class DB {
+	save(items) {
+		console.log(`Save : ${items}`);
+	}
+}
+
+class MongoDB extends DB {
+	save(items) {
+		console.log(`Save to Mongo : ${items}`);
+	}
+}
+
+class ToDoList {
+	items = [1, 2, 3];
+	db;
+	constructor(db) {
+		this.db = db;
+	}
+
+	saveToDb() {
+		this.db.save(this.items);
 	}
 }
