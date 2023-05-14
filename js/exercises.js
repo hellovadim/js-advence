@@ -200,15 +200,38 @@ const root = document.getElementById("root");
 // 		root.appendChild(select);
 // 	});
 
-function createSelect(array) {
-	root.innerHTML = `
-	<select>
-		${array.map((el) => `<option value=${el}>${el}</option>`)}
-	</select>
-	`;
-}
-fetch("https://dummyjson.com/products/categories")
-	.then((res) => res.json())
-	.then((data) => {
-		createSelect(data);
+// function createSelect(array) {
+// 	root.innerHTML = `
+// 	<select>
+// 		${array.map((el) => `<option value=${el}>${el}</option>`)}
+// 	</select>
+// 	`;
+// }
+// fetch("https://dummyjson.com/products/categories")
+// 	.then((res) => res.json())
+// 	.then((data) => {
+// 		createSelect(data);
+// 	});
+
+// My Fetch
+
+function myFetch(url) {
+	return new Promise((resolve, reject) => {
+		const request = new XMLHttpRequest();
+		request.open("GET", url);
+		request.send();
+		request.addEventListener("load", function () {
+			resolve(this.responseText);
+		});
+		request.addEventListener("error", function () {
+			reject(this.statusText);
+		});
+		request.addEventListener("timeout", function () {
+			reject(new Error("timeout"));
+		});
 	});
+}
+
+myFetch("https://jsonplaceholder.typicode.com/todos/")
+	.then((data) => console.log(data))
+	.catch((err) => console.log(err));
